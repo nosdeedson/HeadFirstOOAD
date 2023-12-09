@@ -1,8 +1,8 @@
 package E3n.com.head.first.OOAD;
 
-import E3n.com.head.first.OOAD.domain.guitar.Builder;
-import E3n.com.head.first.OOAD.domain.guitar.Type;
-import E3n.com.head.first.OOAD.domain.guitar.Wood;
+import E3n.com.head.first.OOAD.domain.storeinstrument.enumerated.Builder;
+import E3n.com.head.first.OOAD.domain.storeinstrument.enumerated.Type;
+import E3n.com.head.first.OOAD.domain.storeinstrument.enumerated.Wood;
 import com.github.javafaker.Faker;
 
 import java.util.UUID;

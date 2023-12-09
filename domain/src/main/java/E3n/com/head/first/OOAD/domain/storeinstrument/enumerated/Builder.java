@@ -1,4 +1,4 @@
-package E3n.com.head.first.OOAD.domain.guitar;
+package E3n.com.head.first.OOAD.domain.storeinstrument.enumerated;
 
 public enum Builder {
 
