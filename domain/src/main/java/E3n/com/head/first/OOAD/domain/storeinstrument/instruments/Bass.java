@@ -5,9 +5,11 @@ import E3n.com.head.first.OOAD.domain.storeinstrument.instrumentspec.InstrumentS
 
 public class Bass extends Instrument{
 
-    public Bass(String serialNumber, double price, InstrumentSpec spec, WhoTune tune) {
-        super(serialNumber, price, spec, tune);
+    public Bass(String serialNumber, double price, InstrumentSpec spec) {
+        super(serialNumber, price, spec);
     }
+
+    public Bass() {  }
 
     @Override
     public String tune() {

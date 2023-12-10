@@ -5,9 +5,11 @@ import E3n.com.head.first.OOAD.domain.storeinstrument.instrumentspec.MandolinSpe
 
 public class Mandolin extends Instrument{
 
-    public Mandolin(String serialNumber, double price, MandolinSpec spec, WhoTune tune) {
-        super(serialNumber, price, spec, tune);
+    public Mandolin(String serialNumber, double price, MandolinSpec spec) {
+        super(serialNumber, price, spec);
     }
+
+    public Mandolin() {   }
 
     @Override
     public String tune() {

@@ -4,9 +4,11 @@ import E3n.com.head.first.OOAD.domain.storeinstrument.*;
 import E3n.com.head.first.OOAD.domain.storeinstrument.enumerated.*;
 import E3n.com.head.first.OOAD.domain.storeinstrument.instruments.*;
 import E3n.com.head.first.OOAD.domain.storeinstrument.instrumentspec.*;
+import E3n.com.head.first.OOAD.domain.storeinstrument.tuner.Tuner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InstrumentTest {
@@ -25,7 +27,7 @@ public class InstrumentTest {
 
         final var spec = new GuitarSpec(expectedBuilder, expectedModel, expectedType, expectedBackwood, expectedFrontwood );
 
-        final Instrument expectedGuitar = new Guitar(expectedSerialNumber, expectedPrice, spec, WhoTune.GUITAR);
+        final Instrument expectedGuitar = new Guitar(expectedSerialNumber, expectedPrice, spec);
 
         final var expectedSpec = expectedGuitar.getSpec();
 
@@ -202,23 +204,38 @@ public class InstrumentTest {
         });
     }
 
+    @Test
+    public void whenCallsToTuneInstruments_shouldTuneThem(){
+        addingToInventory();
+        List<String> instrumentsToTune = new ArrayList<>(this.inventory.getInventory().size());
+        this.inventory.getInventory().forEach(it -> {
+            instrumentsToTune.add( "afinando " + it.getClass().getSimpleName());
+        });
+        final int[] index = {0};
+        this.inventory.getInventory().forEach((it) ->{
+            final var tuner = new Tuner(it);
+            Assertions.assertEquals(tuner.tunning(), instrumentsToTune.get(index[0]));
+            index[0]++;
+        });
+    }
+
     private void addingToInventory() {
         this.inventory = new Inventory();
         inventory.getInventory().addAll(List.of(
                 new Guitar("123", 1000.0,
-                        new GuitarSpec(Builder.FENDER, "stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER), WhoTune.GUITAR),
+                        new GuitarSpec(Builder.FENDER, "stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER)),
                 new Guitar("123",1000.0,
-                        new GuitarSpec(Builder.FENDER, "stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER ), WhoTune.GUITAR),
+                        new GuitarSpec(Builder.FENDER, "stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER )),
                 new Mandolin("1234", 500.0,
-                        new MandolinSpec(Builder.ANY, "mandolin", Type.ACOUSTIC, Wood.BRAZILIAN_ROSEWOOD, Wood.CEDAR, Style.A), WhoTune.MANDOLIN),
+                        new MandolinSpec(Builder.ANY, "mandolin", Type.ACOUSTIC, Wood.BRAZILIAN_ROSEWOOD, Wood.CEDAR, Style.A)),
                 new Banjo("122", 300,
-                        new BanjoSpec(Builder.ANY, "banjo", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD, 4), WhoTune.BANJO),
+                        new BanjoSpec(Builder.ANY, "banjo", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD, 4)),
                 new Bass("122", 300,
-                        new BassSpec(Builder.FENDER, "bass", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD), WhoTune.BASS),
+                        new BassSpec(Builder.FENDER, "bass", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD)),
                 new Dobro("122", 300,
-                        new DobroSpec(Builder.ANY, "dobro", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD), WhoTune.DOBRO),
+                        new DobroSpec(Builder.ANY, "dobro", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD)),
                  new Fiddle("122", 300,
-                         new FiddleSpec(Builder.ANY, "fiddle", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD, "finish"), WhoTune.FIDDLE)
+                         new FiddleSpec(Builder.ANY, "fiddle", Type.ACOUSTIC, Wood.ALDER, Wood.BRAZILIAN_ROSEWOOD, "finish"))
         ));
     }
 
