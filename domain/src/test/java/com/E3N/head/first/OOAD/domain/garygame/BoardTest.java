@@ -6,8 +6,7 @@ import com.E3N.head.first.OOAD.domain.garygame.model.Unit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class BoardTest {
 
@@ -71,22 +70,21 @@ public class BoardTest {
     public void givenAValidBoard_whenCallsAddUnitToTile_ShouldAddIt(){
         final var expectedWidth = 5;
         final var expectedHeigth = 3;
-        final int[] expectedTilePositionWithUnits = {3,3};
+        final int expectedX = 3;
+        final int expectedY = 3;
+
         final var board = new Board(expectedWidth, expectedHeigth);
-        final var units = List.of(new Unit("test1"), new Unit("test2"));
+        final var units = List.of(new Unit("type1"), new Unit("type2"));
         Assertions.assertNotNull(board);
-        board.addUnitToTile(expectedTilePositionWithUnits[0],
-                expectedTilePositionWithUnits[1], units);
+        board.addUnitToTile(expectedX, expectedY, units);
 
-        final var tileWithUnits =
-                board.getTileInPosition(expectedTilePositionWithUnits[0],
-                        expectedTilePositionWithUnits[1]);
-        Assertions.assertNotNull(tileWithUnits);
-        Assertions.assertEquals(units.get(0).getName(),
-                tileWithUnits.getUnits().get(0).getName());
+        final var unitsFromATile = board.getUnits(expectedX, expectedY);
+        Assertions.assertNotNull(unitsFromATile);
+        Assertions.assertEquals(units.get(0).getType(),
+                unitsFromATile.get(0).getType());
 
-        Assertions.assertEquals(units.get(1).getName(),
-                tileWithUnits.getUnits().get(1).getName());
+        Assertions.assertEquals(units.get(0).getType(),
+                unitsFromATile.get(0).getType());
     }
 
     @Test
@@ -116,13 +114,12 @@ public class BoardTest {
         final var expectedX = 3;
         final var expectedY = 9;
         final var board = new Board(expectedWidth, expectedHeigth);
-        final var units = List.of(new Unit("test1"), new Unit("test2"));
+        final var units = List.of(new Unit("type1"), new Unit("type2"));
         Assertions.assertNotNull(board);
         board.addUnitToTile(expectedX, expectedY, units);
-        final var unitsFromTile =
-                board.getTileInPosition(expectedX, expectedY).getUnits();
-        Assertions.assertFalse(unitsFromTile.isEmpty());
-        Assertions.assertEquals(units, unitsFromTile);
+        final var unitsFromATile = board.getUnits(expectedX, expectedY);
+        Assertions.assertFalse(unitsFromATile.isEmpty());
+        Assertions.assertEquals(units, unitsFromATile);
     }
 
     @Test
@@ -131,8 +128,219 @@ public class BoardTest {
         final var expectedHeigth = 10;
         final var board = new Board(expectedWidth, expectedHeigth);
         Assertions.assertNotNull(board);
-        board.getTiles().forEach(listaOfTile -> {
-            listaOfTile.forEach(tile -> Assertions.assertTrue(tile.getUnits().isEmpty()));
+        for (int i = 0; i < expectedWidth; i++) {
+            for (int j = 0; j < expectedHeigth; j++) {
+                final var units = board.getUnits(i+1, j+1);
+                Assertions.assertTrue(units.isEmpty());
+            }
+        }
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsRemoveUnit_shouldRemoveIt(){
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final var expectedSize = 2;
+        final var expectedLeft = "type2";
+
+        final var board = new Board(expectedWidth, expectedHeigth);
+        Assertions.assertNotNull(board);
+        final var unit1 = new Unit("type1");
+        final var unit2 = new Unit("type2");
+        final var units = List.of(unit1, unit2);
+        board.addUnitToTile(expectedX,expectedY, units);
+
+        Assertions.assertEquals(expectedSize, board.getUnits(expectedX,
+                expectedY).size());
+
+        board.removeUnitFromTile(expectedX, expectedY, unit1);
+
+        Assertions.assertEquals(expectedLeft, board.getUnits(expectedX,
+                expectedY).get(0).getType());
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsRemoveUnits_shouldRemoveThem(){
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final var expectedSize = 3;
+        final var expectedSizeAfterRemoving = 0;
+
+        final var board = new Board(expectedWidth, expectedHeigth);
+        Assertions.assertNotNull(board);
+        final var unit1 = new Unit("type1");
+        final var unit2 = new Unit("type2");
+        final var unit3 = new Unit("type3");
+
+        final var units = List.of(unit1, unit2, unit3);
+        board.addUnitToTile(expectedX,expectedY, units);
+
+        Assertions.assertEquals(expectedSize, board.getUnits(expectedX,
+                expectedY).size());
+
+        board.removeUnitFromTile(expectedX, expectedY);
+
+        Assertions.assertEquals(expectedSizeAfterRemoving, board.getUnits(expectedX,
+                expectedY).size());
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsAddPropertiesToUnit_shouldAddThem(){
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final var expectedType = new Unit("type1");
+        final var expectedSizeProperties = 3;
+
+        final var board = new Board(expectedWidth, expectedHeigth);
+        final var properties = new HashMap<String, Object>();
+        properties.put("soldier", "soldier");
+        properties.put("gun", "gun");
+        properties.put("tank", "tank");
+        board.addUnitToTile(expectedX, expectedY, expectedType);
+        board.addPropertiesToUnit(expectedX, expectedY, properties,
+                expectedType.getType());
+
+        Assertions.assertEquals(expectedSizeProperties,
+                board.getUnits(expectedX, expectedY).stream().filter(unit -> unit.equals(expectedType)).findFirst().get().getProperties().size());
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsAddPropertyToUnit_shouldAddIt(){
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final var expectedUnit = new Unit("type1");
+        final var expectedSizeProperties = 1;
+
+        final var expectedKey = "soldier";
+        final var expectedValue = "soldier";
+
+        final var board = new Board(expectedWidth, expectedHeigth);
+
+        board.addUnitToTile(expectedX, expectedY, expectedUnit);
+        board.addPropertyToUnit(expectedX, expectedY, expectedKey,
+                expectedValue, expectedUnit.getType());
+
+        Assertions.assertEquals(expectedSizeProperties,
+                board.getUnits(expectedX, expectedY).stream().filter(unit -> unit.equals(expectedUnit)).findFirst()
+                        .get().getProperties().size());
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsRemovePropertiesFromUnit_shouldRemoveThem(){
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final var expectedType = new Unit("type1");
+        final var expectedSize = 0;
+
+        final var board = new Board(expectedWidth, expectedHeigth);
+        final var properties = new HashMap<String, Object>();
+        properties.put("soldier", "soldier");
+        properties.put("gun", "gun");
+        properties.put("tank", "tank");
+        board.addUnitToTile(expectedX, expectedY, expectedType);
+        board.addPropertiesToUnit(expectedX, expectedY, properties,
+                expectedType.getType());
+
+        board.removePropertiesFromUnit(expectedX, expectedY, expectedType.getType());
+        board.getUnits(expectedX, expectedY).forEach(unit -> {
+            Assertions.assertEquals(expectedSize, unit.getProperties().size());
         });
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsRemovePropertyFromUnit_shouldRemoveIt(){
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final var expectedUnit = new Unit("type1");
+        final var expectedSize = 2;
+        final var expectedKey = "soldier";
+
+        final var board = new Board(expectedWidth, expectedHeigth);
+        final var properties = new HashMap<String, Object>();
+        properties.put("soldier", "soldier");
+        properties.put("gun", "gun");
+        properties.put("tank", "tank");
+        board.addUnitToTile(expectedX, expectedY, expectedUnit);
+        board.addPropertiesToUnit(expectedX, expectedY, properties,
+                expectedUnit.getType());
+
+        board.removePropertyFromUnit(expectedX, expectedY, expectedUnit.getType(),
+                expectedKey);
+        board.getUnits(expectedX, expectedY).forEach(unit -> {
+            Assertions.assertEquals(expectedSize, unit.getProperties().size());
+        });
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsAddNullUnitToTile_shouldThrowException() {
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final Unit expectedUnit = null;
+        final var board = new Board(expectedWidth, expectedHeigth);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> board.addUnitToTile(expectedX, expectedY, expectedUnit));
+
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsAddNullListOfUnitToTile_shouldThrowException() {
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final List<Unit> expectedList = null;
+        final var board = new Board(expectedWidth, expectedHeigth);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> board.addUnitToTile(expectedX, expectedY, expectedList));
+
+    }
+
+    @Test
+    public void givenAValidBoard_whenCallsAddNullPropertiesToUnit_shouldThrowException() {
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final Unit expectedUnit = new Unit("type1");
+        final HashMap<String, Object> expectedProperties = null;
+        final var board = new Board(expectedWidth, expectedHeigth);
+        board.addUnitToTile(expectedX, expectedY, expectedUnit);
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> board.addPropertiesToUnit(expectedX, expectedY,
+                        expectedProperties, expectedUnit.getType()));
+
+    }
+
+    public void givenAValidBoard_whenCallsAddNullPropertyToUnit_shouldThrowException() {
+        final var expectedWidth = 10;
+        final var expectedHeigth = 10;
+        final var expectedX = 5;
+        final var expectedY = 5;
+        final Unit expectedUnit = new Unit("type1");
+        final String expectedKey = null;
+        final String expectedValue = null;
+
+        final var board = new Board(expectedWidth, expectedHeigth);
+        board.addUnitToTile(expectedX, expectedY, expectedUnit);
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> board.addPropertyToUnit(expectedX, expectedY,
+                        expectedKey, expectedValue, expectedUnit.getType()));
+
     }
 }

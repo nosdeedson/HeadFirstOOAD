@@ -10,20 +10,39 @@ public class Tile {
 
     public Tile(String myPosition) {
         this.myPosition = myPosition;
+        this.units = new ArrayList<>(3);
     }
 
-    public List<Unit> getUnits() {
-        if (this.units == null){
-            this.units = new ArrayList<>();
+    protected void removeUnit(final Unit unitToRemove){
+        if (unitToRemove != null){
+            units.remove(unitToRemove);
         }
+    }
+
+    protected void removeUnits(){
+        /*
+          There is no need to increment 'i' because we want to remove all units
+          after we remove de first unit the list will decrement itself
+          so, we have to remove the first item of the list until there is
+          none to remove anymore
+         */
+        for (int i = 0; i < this.units.size();) {
+            removeUnit(this.getUnits().get(i));
+        }
+    }
+
+    protected List<Unit> getUnits() {
         return this.units;
     }
 
-    public void setUnit(Unit unit) {
+    protected void setUnit(Unit unit) {
+        if (unit == null){
+            throw new IllegalArgumentException("unit should not be null");
+        }
         this.units.add(unit);
     }
 
-    public String getMyPosition() {
+    public final String getMyPosition() {
         return myPosition;
     }
 }
