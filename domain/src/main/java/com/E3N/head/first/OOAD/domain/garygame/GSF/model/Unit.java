@@ -1,15 +1,23 @@
-package com.E3N.head.first.OOAD.domain.garygame.model;
+package com.E3N.head.first.OOAD.domain.garygame.GSF.model;
 
 import java.util.*;
 
 public class Unit {
     private final String type;
-
+    private int id;
+    private String name;
+    private List<Weapon> weapons;
     private Map<String, Object> properties;
 
-    public Unit(String type) {
+    public Unit(final String type, final int id ) {
+        this.id = id;
         this.type = type;
         properties = new HashMap<>(3);
+        weapons = new ArrayList<>(1);
+    }
+
+    protected void addWeapon(final Weapon weapon){
+        this.weapons.add(weapon);
     }
 
     protected void removeProperty(final String key){
@@ -48,6 +56,28 @@ public class Unit {
 
     public Map<String, Object> getProperties() {
         return Collections.unmodifiableMap(properties);
+    }
+
+    public Unit setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Unit setWeapons(List<Weapon> weapons) {
+        this.weapons = weapons;
+        return this;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Weapon> getWeapons() {
+        return weapons;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.E3N.head.first.OOAD.domain.garygame;
 
-import com.E3N.head.first.OOAD.domain.garygame.model.Board;
-import com.E3N.head.first.OOAD.domain.garygame.model.Tile;
-import com.E3N.head.first.OOAD.domain.garygame.model.Unit;
+import com.E3N.head.first.OOAD.domain.garygame.GSF.model.Board;
+import com.E3N.head.first.OOAD.domain.garygame.GSF.model.Tile;
+import com.E3N.head.first.OOAD.domain.garygame.GSF.model.Unit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -74,7 +74,7 @@ public class BoardTest {
         final int expectedY = 3;
 
         final var board = new Board(expectedWidth, expectedHeigth);
-        final var units = List.of(new Unit("type1"), new Unit("type2"));
+        final var units = List.of(new Unit("type1", 1), new Unit("type2", 2));
         Assertions.assertNotNull(board);
         board.addUnitToTile(expectedX, expectedY, units);
 
@@ -96,7 +96,7 @@ public class BoardTest {
         final var expectedErrorMessage1 = "'y' deve ser maior que zero e" +
                 " menor igual heigth of the board.";
         final var board = new Board(expectedWidth, expectedHeigth);
-        final var unit = new Unit("test1");
+        final var unit = new Unit("test1", 1);
         Assertions.assertNotNull(board);
         var exception =
                 Assertions.assertThrows(IllegalArgumentException.class,
@@ -114,7 +114,7 @@ public class BoardTest {
         final var expectedX = 3;
         final var expectedY = 9;
         final var board = new Board(expectedWidth, expectedHeigth);
-        final var units = List.of(new Unit("type1"), new Unit("type2"));
+        final var units = List.of(new Unit("type1", 1), new Unit("type2", 2));
         Assertions.assertNotNull(board);
         board.addUnitToTile(expectedX, expectedY, units);
         final var unitsFromATile = board.getUnits(expectedX, expectedY);
@@ -147,8 +147,8 @@ public class BoardTest {
 
         final var board = new Board(expectedWidth, expectedHeigth);
         Assertions.assertNotNull(board);
-        final var unit1 = new Unit("type1");
-        final var unit2 = new Unit("type2");
+        final var unit1 = new Unit("type1", 1);
+        final var unit2 = new Unit("type2", 2);
         final var units = List.of(unit1, unit2);
         board.addUnitToTile(expectedX,expectedY, units);
 
@@ -172,9 +172,9 @@ public class BoardTest {
 
         final var board = new Board(expectedWidth, expectedHeigth);
         Assertions.assertNotNull(board);
-        final var unit1 = new Unit("type1");
-        final var unit2 = new Unit("type2");
-        final var unit3 = new Unit("type3");
+        final var unit1 = new Unit("type1", 1);
+        final var unit2 = new Unit("type2", 2);
+        final var unit3 = new Unit("type3", 3);
 
         final var units = List.of(unit1, unit2, unit3);
         board.addUnitToTile(expectedX,expectedY, units);
@@ -194,7 +194,7 @@ public class BoardTest {
         final var expectedHeigth = 10;
         final var expectedX = 5;
         final var expectedY = 5;
-        final var expectedType = new Unit("type1");
+        final var expectedType = new Unit("type1", 1);
         final var expectedSizeProperties = 3;
 
         final var board = new Board(expectedWidth, expectedHeigth);
@@ -216,7 +216,7 @@ public class BoardTest {
         final var expectedHeigth = 10;
         final var expectedX = 5;
         final var expectedY = 5;
-        final var expectedUnit = new Unit("type1");
+        final var expectedUnit = new Unit("type1", 1);
         final var expectedSizeProperties = 1;
 
         final var expectedKey = "soldier";
@@ -226,7 +226,7 @@ public class BoardTest {
 
         board.addUnitToTile(expectedX, expectedY, expectedUnit);
         board.addPropertyToUnit(expectedX, expectedY, expectedKey,
-                expectedValue, expectedUnit.getType());
+                expectedValue, expectedUnit.getId());
 
         Assertions.assertEquals(expectedSizeProperties,
                 board.getUnits(expectedX, expectedY).stream().filter(unit -> unit.equals(expectedUnit)).findFirst()
@@ -239,7 +239,7 @@ public class BoardTest {
         final var expectedHeigth = 10;
         final var expectedX = 5;
         final var expectedY = 5;
-        final var expectedType = new Unit("type1");
+        final var expectedType = new Unit("type1", 1);
         final var expectedSize = 0;
 
         final var board = new Board(expectedWidth, expectedHeigth);
@@ -263,7 +263,7 @@ public class BoardTest {
         final var expectedHeigth = 10;
         final var expectedX = 5;
         final var expectedY = 5;
-        final var expectedUnit = new Unit("type1");
+        final var expectedUnit = new Unit("type1", 1);
         final var expectedSize = 2;
         final var expectedKey = "soldier";
 
@@ -315,7 +315,7 @@ public class BoardTest {
         final var expectedHeigth = 10;
         final var expectedX = 5;
         final var expectedY = 5;
-        final Unit expectedUnit = new Unit("type1");
+        final Unit expectedUnit = new Unit("type1", 1);
         final HashMap<String, Object> expectedProperties = null;
         final var board = new Board(expectedWidth, expectedHeigth);
         board.addUnitToTile(expectedX, expectedY, expectedUnit);
@@ -331,7 +331,7 @@ public class BoardTest {
         final var expectedHeigth = 10;
         final var expectedX = 5;
         final var expectedY = 5;
-        final Unit expectedUnit = new Unit("type1");
+        final Unit expectedUnit = new Unit("type1", 1);
         final String expectedKey = null;
         final String expectedValue = null;
 
@@ -340,7 +340,7 @@ public class BoardTest {
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> board.addPropertyToUnit(expectedX, expectedY,
-                        expectedKey, expectedValue, expectedUnit.getType()));
+                        expectedKey, expectedValue, expectedUnit.getId()));
 
     }
 }

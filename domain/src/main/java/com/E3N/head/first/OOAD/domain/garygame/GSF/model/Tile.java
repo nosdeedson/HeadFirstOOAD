@@ -1,4 +1,4 @@
-package com.E3N.head.first.OOAD.domain.garygame.model;
+package com.E3N.head.first.OOAD.domain.garygame.GSF.model;
 
 import java.util.ArrayList;
 import java.util.List;

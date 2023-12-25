@@ -1,4 +1,4 @@
-package com.E3N.head.first.OOAD.domain.garygame.model;
+package com.E3N.head.first.OOAD.domain.garygame.GSF.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,10 +73,10 @@ public class Board {
     }
 
     public void addPropertyToUnit(final int x, final int y,
-                                  final String key, final Object value, final String type) {
+                                  final String key, final Object value, final int id) {
         final var tile = getTileInPosition(x, y);
         final var unit =
-                tile.getUnits().stream().filter(it -> it.getType().equals(type)).findFirst();
+                tile.getUnits().stream().filter(it -> it.getId() == id).findFirst();
         unit.ifPresent(unit1 -> unit1.setProperty(key, value));
     }
 
