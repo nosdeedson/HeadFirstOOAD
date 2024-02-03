@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>domain</module>
+        <module>DesignPatterns</module>
     </modules>
 
     <properties>
