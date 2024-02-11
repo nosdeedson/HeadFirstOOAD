@@ -1,15 +1,13 @@
-package E3N.com.payroll.payment;
+package E3N.com.payroll.payment.classification;
 
-import E3N.com.payroll.timecard.TimeCard;
+import E3N.com.payroll.payment.classification.HourlyClassification;
+import E3N.com.payroll.payment.classification.TimeCard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.temporal.*;
-import java.util.Locale;
 
 public class HourlyClassificationTest {
 

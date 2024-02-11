@@ -1,6 +1,4 @@
-package E3N.com.payroll.payment;
-
-import E3N.com.payroll.sales.SalesReceipt;
+package E3N.com.payroll.payment.classification;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

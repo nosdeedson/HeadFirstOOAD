@@ -1,4 +1,4 @@
-package E3N.com.payroll.timecard;
+package E3N.com.payroll.payment.classification;
 
 import java.time.LocalDate;
 

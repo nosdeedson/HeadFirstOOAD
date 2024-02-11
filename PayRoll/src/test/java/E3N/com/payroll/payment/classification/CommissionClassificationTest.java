@@ -1,6 +1,7 @@
-package E3N.com.payroll.payment;
+package E3N.com.payroll.payment.classification;
 
-import E3N.com.payroll.sales.SalesReceipt;
+import E3N.com.payroll.payment.classification.CommissionedClassification;
+import E3N.com.payroll.payment.classification.SalesReceipt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

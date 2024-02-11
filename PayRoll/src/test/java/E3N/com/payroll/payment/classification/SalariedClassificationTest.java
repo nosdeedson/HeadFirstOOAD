@@ -1,5 +1,6 @@
-package E3N.com.payroll.payment;
+package E3N.com.payroll.payment.classification;
 
+import E3N.com.payroll.payment.classification.SalariedClassification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

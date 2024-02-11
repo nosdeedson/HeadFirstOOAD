@@ -1,4 +1,4 @@
-package E3N.com.payroll.sales;
+package E3N.com.payroll.payment.classification;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

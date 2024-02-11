@@ -1,4 +1,4 @@
-package E3N.com.payroll.payment;
+package E3N.com.payroll.payment.classification;
 
 import java.math.BigDecimal;
 

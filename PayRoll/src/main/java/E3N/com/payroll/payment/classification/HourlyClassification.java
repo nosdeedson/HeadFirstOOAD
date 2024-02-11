@@ -1,11 +1,8 @@
-package E3N.com.payroll.payment;
-
-import E3N.com.payroll.timecard.TimeCard;
+package E3N.com.payroll.payment.classification;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
