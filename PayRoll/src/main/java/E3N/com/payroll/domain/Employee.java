@@ -4,8 +4,11 @@ import E3N.com.payroll.payment.affiliation.Affiliation;
 import E3N.com.payroll.payment.affiliation.NoAffiliation;
 import E3N.com.payroll.payment.classification.PayClassification;
 import E3N.com.payroll.payment.method.PayMethod;
+import E3N.com.payroll.payment.schedule.PaymentSchedule;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 
 public class Employee {
 
@@ -17,6 +20,8 @@ public class Employee {
 
     private PayMethod payMethod;
 
+    private PaymentSchedule paymentSchedule;
+
     public Employee(String name, Address address) {
         this.name = name;
         this.address = address;
@@ -26,8 +31,12 @@ public class Employee {
         return this.getAffiliation().calculateServiceCharges();
     }
 
-    public BigDecimal calculatePayment(){
-        return this.getPayClassification().calculatePay();
+    public BigDecimal calculatePayment(final LocalDate payDay){
+        BigDecimal result = BigDecimal.ONE.setScale(2, RoundingMode.HALF_DOWN);
+        if(this.getPaymentSchedule().triggerPayment(payDay)){
+            result = this.getPayClassification().calculatePay();
+        }
+        return result;
     }
 
     public String sendPayment(){
@@ -65,5 +74,13 @@ public class Employee {
 
     public void setAffiliation(Affiliation affiliation) {
         this.affiliation = affiliation;
+    }
+
+    public PaymentSchedule getPaymentSchedule() {
+        return paymentSchedule;
+    }
+
+    public void setPaymentSchedule(PaymentSchedule paymentSchedule) {
+        this.paymentSchedule = paymentSchedule;
     }
 }

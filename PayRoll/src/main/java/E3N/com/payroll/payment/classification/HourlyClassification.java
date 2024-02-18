@@ -6,6 +6,9 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Payment ever other week
+ */
 public class HourlyClassification implements PayClassification{
 
     private BigDecimal hourlyRate;
@@ -23,9 +26,7 @@ public class HourlyClassification implements PayClassification{
     public BigDecimal calculatePay() {
         BigDecimal total = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_DOWN);
         for(TimeCard timeCard: timeCards){
-            if (!timeCard.getDate().getDayOfWeek().equals(DayOfWeek.FRIDAY) ){
-                continue;
-            }
+
             if (timeCard.getHours() > 8){
                 BigDecimal workedHours = new BigDecimal(timeCard.getHours()).setScale(2, RoundingMode.HALF_DOWN);
                 BigDecimal extraHourWorked =workedHours.subtract(new BigDecimal("8"));

@@ -6,7 +6,10 @@ import java.time.LocalDate;
 public class WeeklySchedule implements PaymentSchedule{
 
     @Override
-    public boolean triggerPayment() {
+    public boolean triggerPayment(final LocalDate date) {
+        if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)){
+            return true;
+        }
         return false;
     }
 }

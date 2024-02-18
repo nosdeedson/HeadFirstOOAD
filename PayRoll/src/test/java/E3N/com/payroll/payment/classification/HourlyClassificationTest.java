@@ -93,7 +93,7 @@ public class HourlyClassificationTest {
 
     @Test
     public void shouldNotCalculatePayment_becauseIsNotFriday(){
-        final var expectedPayment = new BigDecimal("0.00");
+        final var expectedPayment = new BigDecimal("80.00");
         final var expectedTimeCard = new TimeCard(LocalDate.now(), 8);
         HourlyClassification hourlyClassification = new HourlyClassification(new BigDecimal(10));
         hourlyClassification.addTimeCard(expectedTimeCard);

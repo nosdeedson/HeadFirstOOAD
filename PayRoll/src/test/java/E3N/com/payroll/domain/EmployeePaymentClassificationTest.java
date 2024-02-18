@@ -1,6 +1,8 @@
 package E3N.com.payroll.domain;
 
 import E3N.com.payroll.payment.classification.*;
+import E3N.com.payroll.payment.schedule.PaymentSchedule;
+import E3N.com.payroll.payment.schedule.WeeklySchedule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,8 @@ import java.time.LocalDate;
 public class EmployeePaymentClassificationTest {
 
     private Employee employee;
+    private PaymentSchedule schedule;
+    private LocalDate payDay;
 
     @BeforeEach
     public void setUp(){
@@ -24,13 +28,16 @@ public class EmployeePaymentClassificationTest {
                 .withZipCode("37501-136");
 
         this.employee = new Employee("Edson", address);
+        schedule = new WeeklySchedule();
+        employee.setPaymentSchedule(schedule);
+        payDay = LocalDate.of(2024, 2, 16);
     }
 
     @Test
     public void givenAnEmployeeWithComissionedClassification_withoutSalesReceipts_shouldCalculatePayment() {
         final var expectedPayment = new BigDecimal("0.00");
         employee.setPayClassification(new CommissionedClassification(10));
-        final var payment = employee.calculatePayment();
+        final var payment = employee.calculatePayment(payDay);
         Assertions.assertEquals(expectedPayment, payment);
     }
 
@@ -46,7 +53,7 @@ public class EmployeePaymentClassificationTest {
         final var expectedPayment = new BigDecimal("30.00");
         employee.setPayClassification(expectedComissionClassification);
 
-        final var payment = employee.calculatePayment();
+        final var payment = employee.calculatePayment(payDay);
         Assertions.assertEquals(expectedPayment, payment);
     }
 
@@ -56,7 +63,7 @@ public class EmployeePaymentClassificationTest {
         final var expectedPayment = new BigDecimal("1000.00");
         employee.setPayClassification(new SalariedClassification(new BigDecimal("1000.00")));
 
-        final var payment = employee.calculatePayment();
+        final var payment = employee.calculatePayment(payDay);
         Assertions.assertEquals(expectedPayment, payment);
     }
 
@@ -65,7 +72,7 @@ public class EmployeePaymentClassificationTest {
 
         employee.setPayClassification(new HourlyClassification(new BigDecimal("10")));
         final var expectedSalary = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_DOWN);
-        final var payment = employee.calculatePayment();
+        final var payment = employee.calculatePayment(payDay);
         Assertions.assertEquals(expectedSalary, payment);
     }
 
@@ -83,7 +90,7 @@ public class EmployeePaymentClassificationTest {
         employee.setPayClassification(hourlyClassification);
 
         final var expectedSalary = new BigDecimal("240.00");
-        final var payment = employee.calculatePayment();
+        final var payment = employee.calculatePayment(payDay);
         Assertions.assertEquals(expectedSalary, payment);
     }
 
@@ -101,7 +108,7 @@ public class EmployeePaymentClassificationTest {
         employee.setPayClassification(hourlyClassification);
 
         final var expectedSalary = new BigDecimal("270.00");
-        final var payment = employee.calculatePayment();
+        final var payment = employee.calculatePayment(payDay);
         Assertions.assertEquals(expectedSalary, payment);
     }
 
